@@ -1,39 +1,57 @@
 import React, { useState } from "react";
 
 function App() {
-  const [value, setValue] = useState("");
-  function addValue(e) {
-    // console.log(e.target.innerHTML);
-    setValue((prev) => (prev += e.target.innerHTML));
-  }
-  function equal() {
-    setValue(eval(value));
-  }
-  function clearValue() {
-    setValue("");
-  }
+  const [input, setInput] = useState("");
+
+  const handleClick = (value) => {
+    setInput((prevInput) => prevInput + value);
+  };
+
+  const handleClearClick = () => {
+    setInput("");
+  };
+
+  const handleEqualsClick = () => {
+    try {
+      const computedResult = eval(input);
+      setInput(computedResult.toString());
+    } catch (error) {
+      setInput("Error");
+    }
+  };
+
   return (
     <div className="container">
-      <input type="text" value={value} />
-      <br />
-      <button onClick={clearValue}>c</button>
-      <button onClick={addValue}>/</button>
-      <button onClick={addValue}>*</button>
-      <button onClick={addValue}>-</button>
-      <br />
-      <button onClick={addValue}>7</button>
-      <button onClick={addValue}>8</button>
-      <button onClick={addValue}>9</button>
-      <button onClick={addValue}>+</button>
-      <br />
-      <button onClick={addValue}>1</button>
-      <button onClick={addValue}>2</button>
-      <button onClick={addValue}>3</button>
-      <button onClick={equal}>=</button>
-      <br />
+      <div className="calculator">
+        <input type="text" value={input} className="input" readOnly />
 
-      <button onClick={addValue}>0</button>
-      <button onClick={addValue}>.</button>
+        <div className="buttons">
+          <div className="row">
+            <button onClick={() => handleClick("7")}>7</button>
+            <button onClick={() => handleClick("8")}>8</button>
+            <button onClick={() => handleClick("9")}>9</button>
+            <button onClick={() => handleClick("/")}>/</button>
+          </div>
+          <div className="row">
+            <button onClick={() => handleClick("4")}>4</button>
+            <button onClick={() => handleClick("5")}>5</button>
+            <button onClick={() => handleClick("6")}>6</button>
+            <button onClick={() => handleClick("*")}>*</button>
+          </div>
+          <div className="row">
+            <button onClick={() => handleClick("1")}>1</button>
+            <button onClick={() => handleClick("2")}>2</button>
+            <button onClick={() => handleClick("3")}>3</button>
+            <button onClick={() => handleClick("-")}>-</button>
+          </div>
+          <div className="row">
+            <button onClick={() => handleClearClick()}>C</button>
+            <button onClick={() => handleClick("0")}>0</button>
+            <button onClick={() => handleEqualsClick()}>=</button>
+            <button onClick={() => handleClick("+")}>+</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
